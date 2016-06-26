@@ -40,5 +40,7 @@ setup(name='wordzilla',
 
       keywords='learning productivity machine-learning',
       scripts = ['scripts/wordzilla'],
+      test_suite='nose.collector',
+      tests_require=['nose'],
       packages=['wordzilla'],
       zip_safe=False)
