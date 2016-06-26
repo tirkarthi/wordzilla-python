@@ -1,5 +1,6 @@
 from __future__ import print_function
 import sqlite3
+import sys
 import os
 import argparse
 import re
@@ -19,9 +20,9 @@ text_wrapper.initial_indent = text_indent
 text_wrapper.subsequent_indent = text_indent
 
 color = {
-    'green' : '\033[92m',
-    'red' : '\033[91m'
-    }
+    'green': '\033[92m',
+    'red': '\033[91m'
+}
 
 parts_of_speech = ('noun', 'pronoun', 'adjective',
                    'verb', 'adverb', 'preposition',
@@ -51,6 +52,7 @@ args = []
 if options.words:
     args = options.words[0]
 
+
 def colored_output(color):
     def colored_decorator(func):
         @wraps(func)
@@ -72,6 +74,7 @@ def check_word(word):
 
     return bool(re.match(r'^[a-z]+$', word))
 
+
 def get_meanings(word='man', part_of_speech='', number_of_meanings=5):
     """"Get the meanings for the word and return a generator.
     Yield part of speech and the meaning for each iteration.
@@ -92,7 +95,7 @@ def get_meanings(word='man', part_of_speech='', number_of_meanings=5):
 
     while True:
         try:
-            part_of_speech, meaning = meanings.next()
+            part_of_speech, meaning = next(meanings)
             if number_of_meanings:
                 yield part_of_speech, meaning
                 number_of_meanings -= 1
@@ -102,13 +105,18 @@ def get_meanings(word='man', part_of_speech='', number_of_meanings=5):
             meanings.close()
             break
 
+
 def get_word():
     if args:
         word = args
     else:
-        word = raw_input("Enter a word : ")
+        if sys.version_info >= (3, 0):
+            word = input("Enter a word : ")
+        else:
+            word = raw_input("Enter a word : ")
 
     return word
+
 
 def print_part_of_speech_and_meaning(part_of_speech, meaning):
     """Print the part of speech and meaning.
@@ -117,6 +125,7 @@ def print_part_of_speech_and_meaning(part_of_speech, meaning):
     print_part_of_speech(part_of_speech)
     print_meaning(meaning)
 
+
 @colored_output(color['red'])
 def print_part_of_speech(part_of_speech):
     """Colorise the part of speech if the option is present.
@@ -124,6 +133,7 @@ def print_part_of_speech(part_of_speech):
     """
 
     print(part_of_speech)
+
 
 @colored_output(color['green'])
 def print_meaning(meaning):

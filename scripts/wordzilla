@@ -19,9 +19,9 @@ text_wrapper.initial_indent = text_indent
 text_wrapper.subsequent_indent = text_indent
 
 color = {
-    'green' : '\033[92m',
-    'red' : '\033[91m'
-    }
+    'green': '\033[92m',
+    'red': '\033[91m'
+}
 
 parts_of_speech = ('noun', 'pronoun', 'adjective',
                    'verb', 'adverb', 'preposition',
@@ -51,6 +51,7 @@ args = []
 if options.words:
     args = options.words[0]
 
+
 def colored_output(color):
     def colored_decorator(func):
         @wraps(func)
@@ -71,6 +72,7 @@ def check_word(word):
     word = word.strip().lower()
 
     return bool(re.match(r'^[a-z]+$', word))
+
 
 def get_meanings(word='man', part_of_speech='', number_of_meanings=5):
     """"Get the meanings for the word and return a generator.
@@ -102,6 +104,7 @@ def get_meanings(word='man', part_of_speech='', number_of_meanings=5):
             meanings.close()
             break
 
+
 def get_word():
     if args:
         word = args
@@ -110,12 +113,14 @@ def get_word():
 
     return word
 
+
 def print_part_of_speech_and_meaning(part_of_speech, meaning):
     """Print the part of speech and meaning.
     """
 
     print_part_of_speech(part_of_speech)
     print_meaning(meaning)
+
 
 @colored_output(color['red'])
 def print_part_of_speech(part_of_speech):
@@ -124,6 +129,7 @@ def print_part_of_speech(part_of_speech):
     """
 
     print(part_of_speech)
+
 
 @colored_output(color['green'])
 def print_meaning(meaning):
