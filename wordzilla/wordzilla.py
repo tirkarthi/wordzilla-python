@@ -70,8 +70,6 @@ def check_word(word):
     """Check if the word contains only alphabets
     """
 
-    word = word.strip().lower()
-
     return bool(re.match(r'^[a-z]+$', word))
 
 
@@ -147,6 +145,7 @@ if __name__ == "__main__":
     word = get_word()
 
     if word:
+        word = word.strip().lower()
         if check_word(word):
 
             part_of_speech = options.part_of_speech.lower().capitalize()
